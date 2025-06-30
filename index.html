@@ -31,7 +31,7 @@
       const formData = new FormData();
       formData.append("pdf_doc", fileInput.files[0]);
 
-      const response = await fetch("https://YOUR-BACKEND-URL/process", {
+      const response = await fetch("https://parser-resume.onrender.com/process", {
         method: "POST",
         body: formData
       });
