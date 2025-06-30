@@ -1,12 +1,12 @@
 import os
-from openai import OpenAI
+import openai
 
 def ats_extractor(resume_data):
     api_key = os.getenv("OPENAI_API_KEY")
     if not api_key:
         raise ValueError("OPENAI_API_KEY environment variable not set")
 
-    client = OpenAI(api_key=api_key)
+    openai.api_key = api_key
 
     prompt = '''
     You are an AI bot designed to act as a professional for parsing resumes. You are given with resume and your job is to extract the following information from the resume:
@@ -20,7 +20,7 @@ def ats_extractor(resume_data):
     Give the extracted information in json format only
     '''
 
-    response = client.chat.completions.create(
+    response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages=[
             {"role": "system", "content": prompt},
