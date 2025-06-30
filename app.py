@@ -19,10 +19,16 @@ def ats():
     doc = request.files.get('pdf_doc')
     if not doc:
         return jsonify({"error": "No file uploaded"}), 400
+    if not doc.filename.lower().endswith(".pdf"):
+        return jsonify({"error": "Only PDF files are supported"}), 400
 
     filepath = os.path.join(UPLOAD_PATH, "file.pdf")
     doc.save(filepath)
-    resume_text = _read_file_from_path(filepath)
+
+    try:
+        resume_text = _read_file_from_path(filepath)
+    except Exception as e:
+        return jsonify({"error": "Failed to read PDF", "details": str(e)}), 400
     extracted_data = ats_extractor(resume_text)
 
     try:

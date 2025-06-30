@@ -1,10 +1,12 @@
-from openai import OpenAI
 import os
+from openai import OpenAI
 
 api_key = os.getenv("OPENAI_API_KEY")
 
 if not api_key:
     raise ValueError("Missing OPENAI_API_KEY environment variable")
+
+client = OpenAI(api_key=api_key)
 
 def ats_extractor(resume_data):
     prompt = '''
@@ -18,8 +20,6 @@ def ats_extractor(resume_data):
     7. soft skills
     Give the extracted information in json format only
     '''
-
-    client = OpenAI(api_key=api_key)
 
     response = client.chat.completions.create(
         model="gpt-3.5-turbo",
